@@ -310,8 +310,8 @@
 		<section class="screen active" id="screenInvite">
 			<div class="card">
 				<div class="icon">💌</div>
-				<h1>Quer sair comigo?</h1>
-				<p class="subtitle">Prometo escolher um lugar gostoso, levar carinho e fingir que essa pergunta tinha duas opções reais.</p>
+				<h1>Quer sair comigo, meu bem?</h1>
+				<p class="subtitle">Podemos escolher um lugar bacana ou me deixar preparar um prato bem gostoso pra você.</p>
 				<div class="actions" id="buttonArea">
 					<button class="btn-primary" id="yesButton" type="button">Sim</button>
 					<button class="btn-secondary" id="noButton" type="button" aria-label="Botão não, impossível de clicar">Não</button>
@@ -331,7 +331,7 @@
 		<section class="screen" id="screenSchedule">
 			<div class="card">
 				<div class="icon">📅</div>
-				<h2>Então... quando você está livre?</h2>
+				<h2>Já que escolheu sim (eu sei que você tentou o "Não" kk)... quando você está livre?</h2>
 				<p class="subtitle">Escolhe o dia e o horário. Eu cuido do resto.</p>
 				<form class="form" id="dateForm">
 					<div class="field">
@@ -342,32 +342,34 @@
 						<label for="timeInput">Qual horário? 🥹</label>
 						<select id="timeInput" required>
 							<option value="">Selecione um horário...</option>
+							<option value="16:00">16:00</option>
+							<option value="17:00">17:00</option>
 							<option value="18:00">18:00</option>
 							<option value="19:00">19:00</option>
 							<option value="20:00">20:00</option>
 							<option value="21:00">21:00</option>
 						</select>
 					</div>
-					<button class="btn-primary" type="submit">ok, próximo →</button>
+					<button class="btn-primary" type="submit">Ok, próximo →</button>
 				</form>
 			</div>
 		</section>
 		<section class="screen" id="screenFood">
 			<div class="card">
 				<div class="icon">🍽️</div>
-				<h2>O que vamos comer?</h2>
-				<p class="subtitle">Pode escolher mais de uma opção, porque a vida é curta demais para pouca comida.</p>
+				<h2>O que vamos comer, ein?</h2>
+				<p class="subtitle">Pode escolher mais de uma opção se quiser, porque a vida é curta demais para pouca comida.</p>
 				<div class="food-grid" id="foodGrid"></div>
 				<div class="actions" style="min-height: auto;">
-					<button class="btn-primary" id="finishButton" type="button">esse aqui! →</button>
+					<button class="btn-primary" id="finishButton" type="button">Esse aqui! →</button>
 				</div>
 			</div>
 		</section>
 		<section class="screen" id="screenFinal">
 			<div class="card final-card">
 				<h2>É um encontro! 💌</h2>
-				<p class="subtitle"><strong id="finalTimeText"></strong>, combinado. Vou levar uns snacks só por garantia. 🍿</p>
-				<p class="subtitle"><em>p.s. pessoas normais mandam mensagem. eu fiz um site. sem exagero nenhum.</em></p>
+				<p class="subtitle"><strong id="finalTimeText"></strong>, combinado?! Vou levar uns snacks só por garantia. 🍿</p>
+				<p class="subtitle"><em>OBS: Pessoas normais mandam mensagem. Eu fiz um site na minha hora de almoço kk. Sem exagero nenhum.</em></p>
 				<div class="plan">
 					<div class="plan-row">
 						<div>📆</div>
@@ -410,7 +412,7 @@
 			{ name: "Hambúrguer", emoji: "🍔" },
 			{ name: "Massa", emoji: "🍝" },
 			{ name: "Tacos", emoji: "🌮" },
-			{ name: "Lámen", emoji: "🍜" }
+			{ name: "Lámen ou Yaksoba", emoji: "🍜" }
 		];
 		const screens = document.querySelectorAll(".screen");
 		const noButton = document.getElementById("noButton");
