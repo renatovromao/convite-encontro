@@ -189,14 +189,14 @@
 			border-color: var(--pink);
 			box-shadow: 0 0 0 4px rgba(217, 79, 124, 0.12);
 		}
-		.food-grid {
+		.activity-grid {
 			display: grid;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			gap: 16px;
 			margin-top: 28px;
 			font-family: Arial, sans-serif;
 		}
-		.food-card {
+		.activity-card {
 			padding: 20px 12px;
 			border: 1px solid var(--border);
 			border-radius: 22px;
@@ -205,18 +205,23 @@
 			cursor: pointer;
 			transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 		}
-		.food-card:hover, .food-card.selected {
+		.activity-card:hover, .activity-card.selected {
 			transform: translateY(-4px);
 			border-color: var(--pink);
 			background: rgba(255, 232, 240, 0.92);
 		}
-		.food-emoji {
+		.activity-emoji {
 			display: block;
 			font-size: 44px;
 			margin-bottom: 10px;
 		}
-		.food-name {
+		.activity-name {
 			font-weight: 700;
+		}
+		.custom-field {
+			margin-top: 24px;
+			text-align: left;
+			font-family: Arial, sans-serif;
 		}
 		.final-card {
 			text-align: left;
@@ -298,7 +303,7 @@
 				top: 88px;
 				transform: translateX(-50%);
 			}
-			.food-grid {
+			.activity-grid {
 				grid-template-columns: repeat(2, minmax(0, 1fr));
 			}
 		}
@@ -310,8 +315,8 @@
 		<section class="screen active" id="screenInvite">
 			<div class="card">
 				<div class="icon">💌</div>
-				<h1>Quer sair comigo, meu bem?</h1>
-				<p class="subtitle">Podemos escolher um lugar bacana ou me deixar preparar um prato bem gostoso pra você.</p>
+				<h1>Quer sair comigo, Viviane?</h1>
+				<p class="subtitle">Me deixe saber o que você curte e como seria um primeiro encontro formidável, na sua visão.</p>
 				<div class="actions" id="buttonArea">
 					<button class="btn-primary" id="yesButton" type="button">Sim</button>
 					<button class="btn-secondary" id="noButton" type="button" aria-label="Botão não, impossível de clicar">Não</button>
@@ -354,12 +359,16 @@
 				</form>
 			</div>
 		</section>
-		<section class="screen" id="screenFood">
+		<section class="screen" id="screenActivities">
 			<div class="card">
-				<div class="icon">🍽️</div>
-				<h2>O que vamos comer, ein?</h2>
-				<p class="subtitle">Pode escolher mais de uma opção se quiser, porque a vida é curta demais para pouca comida.</p>
-				<div class="food-grid" id="foodGrid"></div>
+				<div class="icon">🎡</div>
+				<h2>O que você curte fazer, ein?</h2>
+				<p class="subtitle">Pode escolher mais de uma opção se quiser, e se tiver algo que não está na lista, é só escrever ali embaixo.</p>
+				<div class="activity-grid" id="activityGrid"></div>
+				<div class="custom-field">
+					<label for="customInput">Tem outra ideia? Conta pra mim 👇</label>
+					<input id="customInput" type="text" placeholder="Ex: um passeio no parque, uma sorveteria..." />
+				</div>
 				<div class="actions" style="min-height: auto;">
 					<button class="btn-primary" id="finishButton" type="button">Esse aqui! →</button>
 				</div>
@@ -369,7 +378,7 @@
 			<div class="card final-card">
 				<h2>É um encontro! 💌</h2>
 				<p class="subtitle"><strong id="finalTimeText"></strong>, combinado?! Vou levar uns snacks só por garantia. 🍿</p>
-				<p class="subtitle"><em>OBS: Pessoas normais mandam mensagem. Eu fiz um site na minha hora de almoço kk. Sem exagero nenhum.</em></p>
+				<p class="subtitle"><em>Eu fiz isso durante o dia, aos poucos, mas com o objetivo de sair da rotina e ser um pouco criativo.</em></p>
 				<div class="plan">
 					<div class="plan-row">
 						<div>📆</div>
@@ -386,10 +395,10 @@
 						</div>
 					</div>
 					<div class="plan-row">
-						<div>🍕</div>
+						<div>🎡</div>
 						<div>
-							<div class="plan-label">Comida</div>
-							<div class="plan-value" id="finalFood"></div>
+							<div class="plan-label">Programação</div>
+							<div class="plan-value" id="finalActivities"></div>
 						</div>
 					</div>
 				</div>
@@ -404,20 +413,27 @@
 		const state = {
 			date: "",
 			time: "",
-			foods: []
+			activities: []
 		};
-		const foods = [
+		const activities = [
+			{ name: "Filme no Cinema", emoji: "🎬" },
+			{ name: "Comida de Barzinho", emoji: "🍻" },
+			{ name: "Praça do Shopping", emoji: "🛍️" },
 			{ name: "Pizza", emoji: "🍕" },
 			{ name: "Sushi", emoji: "🍣" },
 			{ name: "Hambúrguer", emoji: "🍔" },
 			{ name: "Massa", emoji: "🍝" },
 			{ name: "Tacos", emoji: "🌮" },
-			{ name: "Lámen ou Yaksoba", emoji: "🍜" }
+			{ name: "Lámen ou Yaksoba", emoji: "🍜" },
+			{ name: "Passeio no Parque", emoji: "🌳" },
+			{ name: "Sorveteria", emoji: "🍨" },
+			{ name: "Karaokê", emoji: "🎤" }
 		];
 		const screens = document.querySelectorAll(".screen");
 		const noButton = document.getElementById("noButton");
 		const buttonArea = document.getElementById("buttonArea");
-		const foodGrid = document.getElementById("foodGrid");
+		const activityGrid = document.getElementById("activityGrid");
+		const customInput = document.getElementById("customInput");
 		function goToScreen(id) {
 			screens.forEach((screen) => screen.classList.remove("active"));
 			document.getElementById(id).classList.add("active");
@@ -453,29 +469,34 @@
 			event.preventDefault();
 			state.date = document.getElementById("dateInput").value;
 			state.time = document.getElementById("timeInput").value;
-			goToScreen("screenFood");
+			goToScreen("screenActivities");
 		});
-		foods.forEach((food) => {
+		activities.forEach((activity) => {
 			const card = document.createElement("button");
 			card.type = "button";
-			card.className = "food-card";
-			card.innerHTML = `<span class="food-emoji">${food.emoji}</span><span class="food-name">${food.name}</span>`;
+			card.className = "activity-card";
+			card.innerHTML = `<span class="activity-emoji">${activity.emoji}</span><span class="activity-name">${activity.name}</span>`;
 			card.addEventListener("click", () => {
 				card.classList.toggle("selected");
-				if (state.foods.includes(food.name)) {
-					state.foods = state.foods.filter((item) => item !== food.name);
+				if (state.activities.includes(activity.name)) {
+					state.activities = state.activities.filter((item) => item !== activity.name);
 				} else {
-					state.foods.push(food.name);
+					state.activities.push(activity.name);
 				}
 			});
-			foodGrid.appendChild(card);
+			activityGrid.appendChild(card);
 		});
 		document.getElementById("finishButton").addEventListener("click", () => {
-			if (!state.foods.length) {
-				showToast("Escolhe pelo menos uma comidinha 😌");
+			const customValue = customInput.value.trim();
+			const selectedActivities = [...state.activities];
+			if (customValue) {
+				selectedActivities.push(customValue);
+			}
+			if (!selectedActivities.length) {
+				showToast("Escolhe ou escreve pelo menos uma ideia 😌");
 				return;
 			}
-			renderFinalPlan();
+			renderFinalPlan(selectedActivities);
 			goToScreen("screenFinal");
 		});
 		function formatDate(dateValue) {
@@ -487,15 +508,17 @@
 				month: "long"
 			}).format(date);
 		}
-		function renderFinalPlan() {
+		function renderFinalPlan(selectedActivities) {
+			state.finalActivities = selectedActivities;
 			const formattedDate = formatDate(state.date);
 			document.getElementById("finalTimeText").textContent = `${state.time}`;
 			document.getElementById("finalDate").textContent = formattedDate;
 			document.getElementById("finalTime").textContent = state.time;
-			document.getElementById("finalFood").textContent = state.foods.join(", ");
+			document.getElementById("finalActivities").textContent = selectedActivities.join(", ");
 		}
 		function getPlanText() {
-			return `Nosso encontro está marcado 💖\nQuando: ${formatDate(state.date)}\nHorário: ${state.time}\nComida: ${state.foods.join(", ")}`;
+			const activitiesText = (state.finalActivities || state.activities).join(", ");
+			return `Nosso encontro está marcado 💖\nQuando: ${formatDate(state.date)}\nHorário: ${state.time}\nProgramação: ${activitiesText}`;
 		}
 		document.getElementById("copyButton").addEventListener("click", async () => {
 			const planText = getPlanText();
